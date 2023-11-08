@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.OneNote" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <style name="Theme.OneNote.Starting" parent="Theme.SplashScreen">
+        <!-- windowSplashScreenBackground — Defines the solid color that will be used for a background, with white as default. -->
+        <item name="windowSplashScreenBackground">@color/purple_200</item>
+        <!-- windowSplashScreenAnimationIcon — Overrides the icon resource to use, where the default is the launcher icon. -->
+        <item name="windowSplashScreenAnimatedIcon">@drawable/onenote</item>
+        <item name="windowSplashScreenAnimationDuration">600</item>
+        <!-- postSplashScreenTheme — This option defines the theme that will be automatically applied after the splash screen is finished transitioning. -->
+        <item name="postSplashScreenTheme">@style/Theme.OneNote</item>
+    </style>
+</resources>
