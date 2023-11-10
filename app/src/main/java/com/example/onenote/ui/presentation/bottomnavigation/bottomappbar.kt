@@ -8,10 +8,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Brush
+import androidx.compose.material.icons.filled.Camera
+import androidx.compose.material.icons.filled.CameraAlt
+import androidx.compose.material.icons.filled.Mic
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.BottomAppBarDefaults
+import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
@@ -19,6 +24,9 @@ import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.onenote.R
 
@@ -60,9 +68,7 @@ data class BottomNavigationItem(
         )
     }
 }
-@Composable
-
-fun CustomBottomAppBar() {
+@Preview
     @Composable
     fun BottomAppBarWithFAB() {
         BottomAppBar(
@@ -71,21 +77,30 @@ fun CustomBottomAppBar() {
                     Icon(Icons.Filled.MoreVert, contentDescription = "Localized description")
                 }
                 IconButton(onClick = { /* doSomething() */ }) {
-                    Icon(
-                       Icons.Filled.,
-                        contentDescription = "Localized description",
-                    )
+
+                    Icon(Icons.Filled.Mic, contentDescription = "Localized description")
+
+                }
+                IconButton(onClick = { /* doSomething() */ }) {
+
+                    Icon(Icons.Filled.CameraAlt, contentDescription = "Localized description")
+                }
+
+                IconButton(onClick = { /* doSomething() */ }) {
+
+                    Icon(Icons.Filled.Brush,contentDescription = null)
                 }
             },
             floatingActionButton = {
                 FloatingActionButton(
-                    onClick = { /* do something */ },
+                    onClick = {  },
                     containerColor = BottomAppBarDefaults.bottomAppBarFabColor,
                     elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
                 ) {
                     Icon(Icons.Filled.Add, "Localized description")
                 }
-            }
+            },
+
         )
-    }
+
 }
