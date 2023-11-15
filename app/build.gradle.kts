@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-parcelize")
 }
 
 android {
@@ -63,6 +64,8 @@ dependencies {
     implementation("com.airbnb.android:lottie-compose:6.1.0")
     implementation("com.google.android.material:material:1.10.0")
     implementation("androidx.compose.material:material-icons-extended:1.6.0-alpha08")
+    implementation("androidx.navigation:navigation-runtime-ktx:2.7.5")
+    implementation("javax.inject:javax.inject:1")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
@@ -73,6 +76,8 @@ dependencies {
     implementation ("androidx.core:core-splashscreen:1.0.0-beta02")
 
     implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1")
+
+    implementation("me.saket.telephoto:zoomable-image-coil:0.6.2")
 
 
 }

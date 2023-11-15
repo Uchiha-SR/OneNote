@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">OneNote</string>
+    <string name="title">Title</string>
+    <string name="clear_image">Clear Image</string>
+    <string name="image">Image</string>
+    <string name="back">Back\n</string>
 </resources>
