@@ -5,7 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.navigation
 import com.example.onenote.model.Note
 import com.example.onenote.ui.graphs.Graph
-
+/*
 fun NavGraphBuilder.notesNavGraph(navHostController: NavHostController) {
     var noteData: Note? = null
     navigation(
@@ -29,4 +29,4 @@ fun NavGraphBuilder.notesNavGraph(navHostController: NavHostController) {
         }
 
     }
-}
+} */

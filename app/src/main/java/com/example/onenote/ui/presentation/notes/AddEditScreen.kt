@@ -44,21 +44,14 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.core.view.ViewCompat
-import com.aritra.notify.components.appbar.AddEditBottomBar
-import com.aritra.notify.components.appbar.AddEditTopBar
-import com.aritra.notify.components.camPreview.CameraPreview
-import com.aritra.notify.components.dialog.DateTimeDialog
-import com.aritra.notify.components.dialog.TextDialog
-import com.aritra.notify.components.drawing.DrawingScreen
-import com.aritra.notify.ui.theme.NotifyTheme
-import com.aritra.notify.utils.formatReminderDateTime
+
 import com.example.onenote.R
 import com.example.onenote.model.Note
 import com.example.onenote.model.Todo
 import java.time.LocalDateTime
-import java.time.format.TextStyle
-import java.util.Date
 
+import java.util.Date
+/*
 @Composable
 fun AddEditScreen(
     note: Note,
@@ -357,3 +350,6 @@ private fun AddEditScreenPreview() = NotifyTheme {
         onUpdateReminderDateTime = {}
     )
 }
+
+
+ */
