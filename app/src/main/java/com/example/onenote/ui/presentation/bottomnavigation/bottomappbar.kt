@@ -70,7 +70,7 @@ data class BottomNavigationItem(
 }
 @Preview
     @Composable
-    fun BottomAppBarWithFAB() {
+    fun BottomAppBarWithFAB( createNewNote: () -> Unit) {
         BottomAppBar(
             actions = {
                 IconButton(onClick = { /* doSomething() */ }) {
@@ -93,7 +93,7 @@ data class BottomNavigationItem(
             },
             floatingActionButton = {
                 FloatingActionButton(
-                    onClick = {  },
+                    onClick = {   createNewNote() },
                     containerColor = BottomAppBarDefaults.bottomAppBarFabColor,
                     elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
                 ) {
