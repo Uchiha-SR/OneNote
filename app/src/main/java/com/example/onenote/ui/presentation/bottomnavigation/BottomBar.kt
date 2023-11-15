@@ -14,8 +14,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.navigation.NavController
 
-
+//refer tohttps://github.com/Mariamikv/Notes-App/
 sealed class Screens(val route : String) {
     object Page : Screens("add page")
     object Canvas : Screens("canvas")
@@ -58,7 +59,7 @@ data class BottomNavigationItem(
 */
 
     @Composable
-    fun BottomBarwithFab( createNewNote: () -> Unit) {
+    fun BottomBarwithFab(navController: NavController,) {
         BottomAppBar(
             actions = {
                 IconButton(onClick = { /* doSomething() */ }) {
@@ -81,7 +82,7 @@ data class BottomNavigationItem(
             },
             floatingActionButton = {
                 FloatingActionButton(
-                    onClick = {  createNewNote() },
+                    onClick = { navController.navigate(Screen.AddEditNoteScreen.route) },
                     containerColor = BottomAppBarDefaults.bottomAppBarFabColor,
                     elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
                 ) {

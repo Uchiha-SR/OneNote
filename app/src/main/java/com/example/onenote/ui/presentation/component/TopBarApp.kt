@@ -1,5 +1,6 @@
 package com.example.onenote.ui.presentation.component
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -56,7 +57,7 @@ fun TopAppBarComponent() {
                             fontWeight = FontWeight.Bold,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
-                            color = Color.White
+                          //  color = Color.White
                         )
                     }
                 },
