@@ -35,7 +35,7 @@ import java.util.Locale
 
 @Preview(showBackground = true)
 @Composable
-fun NoteTakingPage() {
+fun CreateNote() {
     var title by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
     var dateAndTime by remember { mutableStateOf("") }

@@ -13,8 +13,8 @@ import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+
 
 //refer tohttps://github.com/Mariamikv/Notes-App/
 sealed class Screens(val route : String) {
@@ -59,7 +59,7 @@ data class BottomNavigationItem(
 */
 
     @Composable
-    fun BottomBarwithFab(navController: NavController,) {
+    fun BottomBarwithFab(navController: NavHostController,) {
         BottomAppBar(
             actions = {
                 IconButton(onClick = { /* doSomething() */ }) {
@@ -82,7 +82,7 @@ data class BottomNavigationItem(
             },
             floatingActionButton = {
                 FloatingActionButton(
-                    onClick = { navController.navigate(Screen.AddEditNoteScreen.route) },
+                    onClick = { navController.navigate(Screen.CreateNote.route) },
                     containerColor = BottomAppBarDefaults.bottomAppBarFabColor,
                     elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
                 ) {

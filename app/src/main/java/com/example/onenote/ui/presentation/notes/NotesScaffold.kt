@@ -19,11 +19,12 @@ import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.onenote.model.Note
 import com.example.onenote.ui.presentation.bottomnavigation.BottomBarwithFab
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-
+/*
 @Composable
 fun NotesScaffold(
     scope: CoroutineScope = rememberCoroutineScope(),
@@ -50,9 +51,8 @@ fun NotesScaffold(
     var agendaView by rememberSaveable { mutableStateOf(true) }
 
     Scaffold(bottomBar = {
-        BottomBarwithFab() {
-            onNewNoteClick()
-        }
+        BottomBarwithFab(navController = NavController)
+
     }) { paddingValue ->
         Box(
             modifier = Modifier
@@ -76,4 +76,4 @@ fun NotesScaffold(
     }
 
 }
-
+*/

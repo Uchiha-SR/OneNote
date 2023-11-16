@@ -81,5 +81,7 @@ dependencies {
 
     implementation("me.saket.telephoto:zoomable-image-coil:0.6.2")
 
+    implementation ("androidx.navigation:navigation-compose:2.4.0-alpha09")
+
 
 }
