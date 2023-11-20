@@ -13,7 +13,6 @@ import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavHostController
 
 
 //refer tohttps://github.com/Mariamikv/Notes-App/
@@ -59,7 +58,7 @@ data class BottomNavigationItem(
 */
 
     @Composable
-    fun BottomBarwithFab(navController: NavHostController,) {
+    fun BottomBarwithFab() {
         BottomAppBar(
             actions = {
                 IconButton(onClick = { /* doSomething() */ }) {
@@ -82,7 +81,7 @@ data class BottomNavigationItem(
             },
             floatingActionButton = {
                 FloatingActionButton(
-                    onClick = { navController.navigate(Screen.CreateNote.route) },
+                    onClick = {  },
                     containerColor = BottomAppBarDefaults.bottomAppBarFabColor,
                     elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
                 ) {

@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.onenote"
-        minSdk = 24
+        minSdk = 25
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -68,6 +68,8 @@ dependencies {
     implementation("javax.inject:javax.inject:1")
     implementation("androidx.biometric:biometric:1.2.0-alpha05")
     implementation("androidx.navigation:navigation-compose:2.7.5")
+    implementation("androidx.wear.compose:compose-material3:1.0.0-alpha15")
+    implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
@@ -82,6 +84,9 @@ dependencies {
     implementation("me.saket.telephoto:zoomable-image-coil:0.6.2")
 
     implementation ("androidx.navigation:navigation-compose:2.4.0-alpha09")
+
+
+    implementation ("androidx.biometric:biometric-ktx:1.2.0-alpha05")
 
 
 }

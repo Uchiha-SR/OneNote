@@ -1,355 +1,154 @@
 package com.example.onenote.ui.presentation.notes
 
-import android.net.Uri
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccessTime
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material3.ElevatedAssistChip
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardCapitalization
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.sp
-import androidx.core.view.ViewCompat
-
-import com.example.onenote.R
-import com.example.onenote.model.Note
-import com.example.onenote.model.Todo
-import java.time.LocalDateTime
-
-import java.util.Date
 /*
 @Composable
-fun AddEditScreen(
-    note: Note,
-    isNew: Boolean,
-    modifier: Modifier = Modifier,
-    navigateBack: () -> Unit,
-    saveNote: (String, String, List<Uri>, List<Todo>) -> Unit,
-    deleteNote: (() -> Unit) -> Unit,
-    onUpdateReminderDateTime: (LocalDateTime?) -> Unit,
+fun NoteScreen(
+    navController: NavController,
+    noteColor: Int,
+    viewModel: AddEditNoteViewModel = hiltViewModel()
 ) {
-    val focus = LocalFocusManager.current
+    val scaffoldState = rememberScaffoldState()
 
-    var title by remember {
-        mutableStateOf(note.title)
-    }
-    var description by remember {
-        mutableStateOf(note.note)
-    }
-    var showAddTodo by remember {
-        mutableStateOf(false)
-    }
-    val images = remember {
-        mutableStateListOf<Uri>()
-    }
-    val checklist = remember {
-        mutableStateListOf<Todo>()
-    }
-    val cancelDialogState = remember {
-        mutableStateOf(false)
-    }
-    var openCameraPreview by remember {
-        mutableStateOf(false)
-    }
-    var isEditDateTime by remember {
-        mutableStateOf(false)
-    }
-    var openDrawingScreen by remember {
-        mutableStateOf(false)
-    }
-    var shouldShowDialogDateTime by remember {
-        mutableStateOf(false)
-    }
+    val noteTitle = viewModel.noteTitle.value
 
-    // Makes sure that the title is updated when the note is updated
-    LaunchedEffect(note.title) {
-        title = note.title
-    }
-    LaunchedEffect(note.note) {
-        description = note.note
-    }
-    LaunchedEffect(note.image) {
-        images.clear()
-        images.addAll(note.image.filterNotNull())
-    }
-    LaunchedEffect(note.checklist) {
-        checklist.clear()
-        checklist.addAll(note.checklist.sortedBy { it.isChecked })
+    val noteContent = viewModel.noteContent.value
+
+
+
+    val uiEvent = viewModel.event
+
+    val coroutineScope = rememberCoroutineScope()
+
+
+
+    LaunchedEffect(key1 = true) {
+        // Observe the ui events.
+        uiEvent.collectLatest { event ->
+            when (event) {
+                is AddEditNoteViewModel.UiEvent.ShowSnackBar -> {
+                    scaffoldState.snackbarHostState.showSnackbar(
+                        message = event.message
+                    )
+                }
+
+                is UiEvent.SaveNote -> {
+                    navController.navigateUp() // Navigate to the previous screen.
+                }
+            }
+        }
     }
 
     Scaffold(
-        modifier = modifier,
-        topBar = {
-            AddEditTopBar(
-                title = title,
-                description = description,
-                isNew = isNew,
-                onBackPress = if (isNew) {
-                    { cancelDialogState.value = true }
-                } else {
-                    navigateBack
-                },
-                saveNote = {
-                    saveNote(title, description, images, checklist)
-                },
-                deleteNote = deleteNote
-            )
-        },
-        content = { scaffoldPadding ->
-            val scrollState = rememberScrollState()
-            var descriptionScrollOffset by remember { mutableIntStateOf(0) }
-            var contentSize by remember { mutableIntStateOf(0) }
-
-            Column(
-                modifier = Modifier
-                    .padding(scaffoldPadding)
-                    .onGloballyPositioned {
-                        contentSize = it.size.height
-                    }
-                    .fillMaxSize()
-                    .verticalScroll(scrollState),
-                content = {
-                    Column(
-                        modifier = Modifier.onGloballyPositioned { layoutCoordinates ->
-                            descriptionScrollOffset = layoutCoordinates.size.height
-                        },
-                        content = {
-                            NoteImages(
-                                images = images,
-                                isNew = isNew,
-                                onRemoveImage = { index ->
-                                    if (index in images.indices) {
-                                        images.removeAt(index)
-                                    }
-                                }
-                            )
-
-                            TextField(
-                                modifier = Modifier.fillMaxWidth(),
-                                value = title,
-                                onValueChange = { newTitle ->
-                                    title = newTitle
-                                },
-                                placeholder = {
-                                    Text(
-                                        stringResource(R.string.title),
-                                        fontSize = 24.sp,
-                                        fontWeight = FontWeight.W700,
-                                        color = Color.Gray,
-                                        fontFamily = FontFamily(Font(R.font.poppins_medium))
-                                    )
-                                },
-                                textStyle = androidx.compose.ui.text.TextStyle(
-                                    fontSize = 24.sp,
-                                    fontFamily = FontFamily(Font(R.font.poppins_medium))
-                                ),
-                                maxLines = Int.MAX_VALUE,
-                                colors = TextFieldDefaults.colors(
-                                    focusedContainerColor = MaterialTheme.colorScheme.surface,
-                                    unfocusedContainerColor = MaterialTheme.colorScheme.surface,
-                                    disabledContainerColor = MaterialTheme.colorScheme.surface,
-                                    focusedIndicatorColor = Color.Transparent,
-                                    unfocusedIndicatorColor = Color.Transparent,
-                                    disabledIndicatorColor = Color.Transparent
-                                ),
-                                keyboardOptions = KeyboardOptions.Default.copy(
-                                    capitalization = KeyboardCapitalization.Sentences,
-                                    keyboardType = KeyboardType.Text,
-                                    imeAction = ImeAction.Next
-                                ),
-                                keyboardActions = KeyboardActions(
-                                    onNext = {
-                                        focus.moveFocus(ViewCompat.FocusDirection.Down)
-                                    }
-                                )
-                            )
-                        }
-                    )
-
-                    NoteStats(
-                        title = title,
-                        description = description,
-                        dateTime = note.dateTime
-                    )
-
-                    note.reminderDateTime?.let {
-                        ElevatedAssistChip(leadingIcon = {
-                            Icon(imageVector = Icons.Default.AccessTime, contentDescription = "")
-                        }, onClick = {
-                            isEditDateTime = !isEditDateTime
-                        }, label = {
-                            Text(
-                                text = it.formatReminderDateTime(),
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.SemiBold,
-                                textDecoration = if (note.isReminded) TextDecoration.LineThrough else null
-                            )
-                        }, trailingIcon = {
-                            Icon(
-                                imageVector = Icons.Default.Close,
-                                contentDescription = "",
-                                modifier = Modifier.clickable {
-                                    onUpdateReminderDateTime(null)
-                                }
-                            )
-                        }, modifier = Modifier)
-                    }
-
-                    NoteChecklist(
-                        checklist = checklist,
-                        showAddTodo = showAddTodo,
-                        onAdd = {
-                            checklist.add(Todo(title = it))
-                        },
-                        onDelete = {
-                            checklist.removeAt(it)
-                        },
-                        onUpdate = { index, newTitle ->
-                            checklist[index] = checklist[index].copy(title = newTitle)
-                        },
-                        onToggle = { index ->
-                            checklist[index] = checklist[index].copy(isChecked = !checklist[index].isChecked)
-                            checklist.sortBy { it.isChecked }
-                        },
-                        hideAddTodo = {
-                            showAddTodo = false
-                        }
-                    )
-
-                    DescriptionTextField(
-                        scrollOffset = descriptionScrollOffset,
-                        contentSize = contentSize,
-                        description = description,
-                        parentScrollState = scrollState,
-                        isNewNote = isNew,
-                        onDescriptionChange = { newDescription ->
-                            description = newDescription
-                        }
-                    )
-                }
-            )
-        },
-        bottomBar = {
-            if (isNew) {
-                AddEditBottomBar(
-                    showDrawingScreen = {
-                        openDrawingScreen = true
-                    },
-                    showCameraSheet = {
-                        openCameraPreview = true
-                    },
-                    onImagesSelected = {
-                        images += it
-                    },
-                    onSpeechRecognized = {
-                        description += " $it"
-                    },
-                    onReminderDateTime = {
-                        shouldShowDialogDateTime = true
-                    },
-                    addTodo = {
-                        showAddTodo = true
-                    }
+        floatingActionButton = {
+            FloatingActionButton(onClick = {
+                viewModel.onEvent(NoteEvent.SaveNote)
+            }, backgroundColor = MaterialTheme.colors.primary) {
+                Icon(
+                    imageVector = Icons.Default.Save,
+                    contentDescription = "Save note",
+                    tint = MaterialTheme.colors.background
                 )
             }
-        }
-    )
+        },
+        scaffoldState = scaffoldState,
+        backgroundColor = backgroundColor.value
+    ) {
+        Column(
+            modifier = Modifier.padding(16.dp)
+        ) {
 
-    if (openCameraPreview) {
-        CameraPreview(
-            close = {
-                openCameraPreview = false
-            },
-            onImageCaptured = { image ->
-                images += image
+            Row {
+                ColorBubbles(noteColor = viewModel.noteColor.value) { color ->
+                    coroutineScope.launch {
+                        backgroundColor.animateTo(
+                            targetValue = color,
+                            animationSpec = tween(
+                                durationMillis = 500
+                            )
+                        )
+                    }
+
+                    viewModel.onEvent(NoteEvent.ChangeColor(color.toArgb()))
+                }
             }
-        )
-    }
 
-    if (openDrawingScreen) {
-        DrawingScreen(
-            onBack = {
-                openDrawingScreen = false
-            },
-            onSave = {
-                images += it
-                openDrawingScreen = false
-            }
-        )
-    }
 
-    TextDialog(
-        title = stringResource(R.string.are_you_sure),
-        description = stringResource(R.string.the_text_change_will_not_be_saved),
-        isOpened = cancelDialogState.value,
-        onDismissCallback = { cancelDialogState.value = false },
-        onConfirmCallback = {
-            navigateBack()
-            cancelDialogState.value = false
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Note Title
+            NoteTextField(
+                text = noteTitle.text,
+                hint = noteTitle.hint,
+                isHintVisible = noteTitle.isHintVisible,
+                textStyle = MaterialTheme.typography.h5,
+                isSingleLine = true,
+                testTag = TITLE_TEXT_FIELD,
+                onValueChange = { text ->
+                    viewModel.onEvent(NoteEvent.ChangeTitle(text))
+                },
+                onFocusStateChanged = { focusState ->
+                    viewModel.onEvent(NoteEvent.ChangeTitleFocus(focusState))
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 16.dp)
+            )
+
+            // Note Content
+            NoteTextField(
+                text = noteContent.text,
+                hint = noteContent.hint,
+                isHintVisible = noteContent.isHintVisible,
+                textStyle = MaterialTheme.typography.body1,
+                isSingleLine = false,
+                testTag = CONTENT_TEXT_FIELD,
+                onValueChange = { text ->
+                    viewModel.onEvent(NoteEvent.ChangeContent(text))
+                },
+                onFocusStateChanged = { focusState ->
+                    viewModel.onEvent(NoteEvent.ChangeContentFocus(focusState))
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight()
+            )
         }
-    )
-
-    DateTimeDialog(isOpen = shouldShowDialogDateTime, isEdit = isEditDateTime, onDateTimeUpdated = {
-        onUpdateReminderDateTime(it)
-        shouldShowDialogDateTime = false
-    }, onConfirmCallback = {
-    }) {
-        shouldShowDialogDateTime = false
-        isEditDateTime = false
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-private fun AddEditScreenPreview() = NotifyTheme {
-    AddEditScreen(
-        note = Note(
-            title = "Title",
-            note = "Description",
-            image = listOf(),
-            dateTime = Date()
-        ),
-        isNew = true,
-        navigateBack = {},
-        saveNote = { _, _, _, _ -> },
-        deleteNote = {},
-        onUpdateReminderDateTime = {}
-    )
-}
-
-
+/**
+ * Composable for rendering color bubble(note background color selector).
  */
+@Composable
+fun ColorBubbles(
+    modifier: Modifier = Modifier,
+    noteColor: Int,
+    onColorChange: (Color) -> Unit
+) {
+    Note.noteColors.forEach { color ->
+        Box(
+            modifier = modifier
+                .padding(8.dp)
+                .size(50.dp)
+                .shadow(15.dp, CircleShape)
+                .clip(CircleShape)
+                .background(
+                    color = color,
+                    shape = CircleShape
+                )
+                .border(
+                    width = 2.dp,
+                    color = if (noteColor == color.toArgb()) {
+                        Color.DarkGray
+                    } else {
+                        Color.Transparent
+                    },
+                    shape = CircleShape
+                )
+                .clickable {
+                    onColorChange(color)
+                }
+        )
+    }
+}
+*/

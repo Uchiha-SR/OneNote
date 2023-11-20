@@ -6,35 +6,34 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavController
-import androidx.navigation.NavHostController
+import androidx.compose.ui.tooling.preview.Preview
 import com.example.onenote.ui.presentation.bottomnavigation.BottomBarwithFab
 import com.example.onenote.ui.presentation.component.TopAppBarComponent
 
 
 
+@Preview
 @Composable
-fun HomeScreen(navController: NavHostController) {
+fun HomeScreen() {
 
 
         Scaffold(
             topBar = {
                 TopAppBarComponent() },
-            bottomBar = { BottomBarwithFab(navController) }
+            bottomBar = { BottomBarwithFab() }
         ){
-            paddingValues ->
-
+                paddingValues ->
+            // rest of the app's UI
             Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(paddingValues = paddingValues),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
-            ){
+            ) {
                 Text(text = "Rest of the app UI")
             }
         }
